@@ -31,15 +31,6 @@ describe("Airdrop", async () => {
 
     const name = "Test";
     const symbol = "TST";
-    const mintAmount = BigNumber.from(1000);
-
-    myERC20 = await new MyERC20__factory(owner).deploy(
-      name,
-      symbol,
-      mintAmount
-    );
-
-    await myERC20.deployed();
 
     listToAirdrop = new Array(10)
       .fill(0)
@@ -51,6 +42,18 @@ describe("Airdrop", async () => {
           amount: BigNumber.from(randomInt(9) + 1),
         };
       });
+
+    let amountToClaim = BigNumber.from(0);
+
+    listToAirdrop.forEach((x) => (amountToClaim = amountToClaim.add(x.amount)));
+
+    myERC20 = await new MyERC20__factory(owner).deploy(
+      name,
+      symbol,
+      amountToClaim
+    );
+
+    await myERC20.deployed();
 
     merkleTree = new MerkleTree(
       listToAirdrop.map((x) => hash(x.who, x.amount)),
@@ -67,7 +70,7 @@ describe("Airdrop", async () => {
 
     await airdrop.deployed();
 
-    await myERC20.connect(owner).transfer(airdrop.address, mintAmount);
+    await myERC20.connect(owner).transfer(airdrop.address, amountToClaim);
   });
 
   it("Should claim", async () => {
