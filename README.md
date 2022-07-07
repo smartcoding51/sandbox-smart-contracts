@@ -5,7 +5,7 @@
 **Any qs - go ahead.**
 
 ```
-npm i - install all npm packages
-npx hardhat test - test contracts
-npx hardhat run scripts\deploy.ts --network hardhat - deploy script
+npm i
+npx hardhat test
+npx hardhat run scripts\deploy.ts
 ```
