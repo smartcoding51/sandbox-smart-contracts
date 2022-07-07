@@ -25,8 +25,8 @@ contract Airdrop {
     function claim(uint256 amount, bytes32[] calldata proof) external {
         require(canClaim(msg.sender, amount, proof), "Airdrop: You cannot claim");
         
-        _erc20.safeTransfer(msg.sender, amount);
         _claimed[msg.sender] = true;
+        _erc20.safeTransfer(msg.sender, amount);
 
         emit Claim(msg.sender, amount);
     }
