@@ -65,6 +65,8 @@ describe("Airdrop", async () => {
       merkleTree.getHexRoot()
     );
 
+    await airdrop.deployed();
+
     await myERC20.connect(owner).transfer(airdrop.address, mintAmount);
   });
 
